@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco Civil da Internet — Jogos Educativos</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- TELA INICIAL -->
+<div id="tela-inicio">
+  <div class="logo-lei">Marco Civil<br>da Internet</div>
+  <div class="subtitulo">Lei nº 12.965 / 2014 — Jogos Educativos</div>
+
+  <div class="grid-jogos">
+    <div class="card-jogo" id="card-quiz" style="--cor-jogo: #00e676" onclick="iniciarQuiz()">
+      <div class="check-completo">✅</div>
+      <div class="emoji-jogo">🧠</div>
+      <div class="nome-jogo">Quiz dos Artigos</div>
+      <div class="desc-jogo">Teste seus conhecimentos sobre os princípios, direitos e deveres da lei com 10 perguntas progressivas.</div>
+      <div class="progresso-badge zerado" id="badge-quiz">Não jogado</div>
+    </div>
+
+    <div class="card-jogo" id="card-vf" style="--cor-jogo: #ffd600" onclick="iniciarVF()">
+      <div class="check-completo">✅</div>
+      <div class="emoji-jogo">⚖️</div>
+      <div class="nome-jogo">Verdadeiro ou Falso</div>
+      <div class="desc-jogo">Afirmações diretas sobre a lei. Você sabe distinguir o que é garantido do que é proibido?</div>
+      <div class="progresso-badge zerado" id="badge-vf">Não jogado</div>
+    </div>
+
+    <div class="card-jogo" id="card-memoria" style="--cor-jogo: #ff6b35" onclick="iniciarMemoria()">
+      <div class="check-completo">✅</div>
+      <div class="emoji-jogo">🃏</div>
+      <div class="nome-jogo">Jogo da Memória</div>
+      <div class="desc-jogo">Combine conceitos com suas definições legais. Um exercício de associação sobre os termos da lei.</div>
+      <div class="progresso-badge zerado" id="badge-memoria">Não jogado</div>
+    </div>
+
+    <div class="card-jogo" id="card-caca" style="--cor-jogo: #c678dd" onclick="iniciarCaca()">
+      <div class="check-completo">✅</div>
+      <div class="emoji-jogo">🔍</div>
+      <div class="nome-jogo">Caça-Palavras</div>
+      <div class="desc-jogo">Encontre os principais termos do Marco Civil escondidos na grade. Bom para fixar vocabulário!</div>
+      <div class="progresso-badge zerado" id="badge-caca">Não jogado</div>
+    </div>
+  </div>
+</div>
+
+<!-- TELA QUIZ -->
+<div id="tela-quiz" class="tela">
+  <button class="btn-voltar" onclick="voltarInicio()">← Voltar</button>
+  <div class="titulo-jogo" style="color:#00e676">🧠 Quiz dos Artigos</div>
+
+  <div class="placar">
+    <div class="placar-item">Pergunta <span id="q-atual">1</span>/10</div>
+    <div class="placar-item">Pontos <span id="q-pontos">0</span></div>
+  </div>
+
+  <div class="barra-progresso"><div class="barra-fill" id="q-barra" style="width:0%"></div></div>
+
+  <div class="pergunta-card">
+    <div class="numero-pergunta" id="q-num">QUESTÃO 01</div>
+    <div class="texto-pergunta" id="q-texto"></div>
+    <div class="opcoes" id="q-opcoes"></div>
+    <div class="feedback" id="q-feedback"></div>
+  </div>
+  <button class="btn-proximo" id="btn-prox" onclick="proximaPergunta()">Próxima →</button>
+</div>
+
+<!-- TELA V/F -->
+<div id="tela-vf" class="tela">
+  <button class="btn-voltar" onclick="voltarInicio()">← Voltar</button>
+  <div class="titulo-jogo" style="color:#ffd600">⚖️ Verdadeiro ou Falso</div>
+
+  <div class="placar">
+    <div class="placar-item">Rodada <span id="vf-atual">1</span>/12</div>
+    <div class="placar-item">Corretas <span id="vf-pontos">0</span></div>
+  </div>
+
+  <div class="barra-progresso"><div class="barra-fill" style="background:var(--amarelo)" id="vf-barra"></div></div>
+
+  <div class="vf-card" id="vf-afirmacao" data-art=""></div>
+
+  <div class="vf-botoes">
+    <button class="vf-btn verdadeiro" id="btn-v" onclick="responderVF(true)">✓ Verdadeiro</button>
+    <button class="vf-btn falso" id="btn-f" onclick="responderVF(false)">✗ Falso</button>
+  </div>
+
+  <div class="feedback" id="vf-feedback"></div>
+  <button class="btn-proximo" id="btn-vf-prox" onclick="proximaVF()">Próxima →</button>
+</div>
+
+<!-- TELA MEMÓRIA -->
+<div id="tela-memoria" class="tela">
+  <button class="btn-voltar" onclick="voltarInicio()">← Voltar</button>
+  <div class="titulo-jogo" style="color:#ff6b35">🃏 Jogo da Memória</div>
+  <p style="font-size:0.8rem; color:#8899bb; margin-bottom:1rem">Encontre os pares: conceito ↔ definição</p>
+
+  <div class="placar">
+    <div class="placar-item">Pares <span id="mem-pares">0</span>/8</div>
+    <div class="placar-item">Tentativas <span id="mem-tent">0</span></div>
+  </div>
+
+  <div class="memoria-grid" id="memoria-grid"></div>
+  <button class="btn-reiniciar" id="btn-mem-novo" style="display:none" onclick="iniciarMemoria()">↺ Jogar Novamente</button>
+</div>
+
+<!-- TELA CAÇA-PALAVRA -->
+<div id="tela-caca" class="tela">
+  <button class="btn-voltar" onclick="voltarInicio()">← Voltar</button>
+  <div class="titulo-jogo" style="color:#c678dd">🔍 Caça-Palavras</div>
+  <p style="font-size:0.8rem; color:#8899bb; margin-bottom:0.5rem">Encontre as palavras-chave do Marco Civil da Internet</p>
+
+  <div class="palavras-lista" id="palavras-lista"></div>
+  <div class="caca-wrapper"><div class="caca-grid" id="caca-grid"></div></div>
+  <div style="font-size:0.8rem; color:#8899bb; margin-top:0.75rem" id="caca-status">Encontradas: <span style="color:var(--verde)" id="caca-count">0</span> / 8</div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
